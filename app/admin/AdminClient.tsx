@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task } from "@/lib/types";
-import { formatPercent, avatarUrl, getProgressColor } from "@/lib/utils";
+import { formatPercent, avatarUrl, getProgressColor, avatarSrcNeedsUnoptimized } from "@/lib/utils";
 import Image from "next/image";
 import { ShieldCheck, AlertTriangle, TrendingUp, Users, CheckSquare, Search, ChevronUp, ChevronDown } from "lucide-react";
 import HighFiveButton from "@/components/admin/HighFiveButton";
@@ -304,9 +304,10 @@ export default function AdminClient({ currentUser: _currentUser, initialProfiles
                         <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/10">
                           <Image
                             src={row.profile.avatar_url || avatarUrl(row.profile.full_name)}
-                            alt={row.profile.full_name}
+                            alt={row.profile.full_name || "Profile"}
                             width={32}
                             height={32}
+                            unoptimized={avatarSrcNeedsUnoptimized(row.profile.avatar_url)}
                             className="w-full h-full object-cover"
                           />
                         </div>

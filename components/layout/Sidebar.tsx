@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 import Image from "next/image";
-import { avatarUrl } from "@/lib/utils";
+import { avatarUrl, avatarSrcNeedsUnoptimized } from "@/lib/utils";
 
 const navItems = [
   {
@@ -137,9 +137,10 @@ export default function Sidebar({ profile }: SidebarProps) {
             <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
               <Image
                 src={profile.avatar_url || avatarUrl(profile.full_name)}
-                alt={profile.full_name}
+                alt={profile.full_name || "Profile"}
                 width={32}
                 height={32}
+                unoptimized={avatarSrcNeedsUnoptimized(profile.avatar_url)}
                 className="w-full h-full object-cover"
               />
             </div>
