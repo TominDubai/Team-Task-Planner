@@ -107,7 +107,7 @@ Use the URL Vercel prints.
 
 1. Open the failed deployment → **Build Logs** and scroll to the **first red error** (that line is what matters).
 2. **Pull the latest code** from this repo: we removed duplicate `next.config.ts` (Next 14 + Vercel can choke on it), added `.eslintrc.json`, and set `eslint.ignoreDuringBuilds` in `next.config.mjs` so the build doesn’t hang on lint setup.
-3. On Vercel → **Settings → Environment Variables**: add **`NEXT_PUBLIC_SUPABASE_URL`** and **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** for **Production** (and Preview if you use previews). Redeploy.
+3. On Vercel → **Settings → Environment Variables**: add **`NEXT_PUBLIC_SUPABASE_URL`** and **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** for **Production** (and Preview if you use previews). **Names must match exactly** (including `NEXT_PUBLIC_`). If these are missing, the build used to fail with *“Your project's URL and API key are required”* during `/auth/login`; the app code now allows the build to finish, but **login on the live site will not work** until both variables are set. Redeploy after adding them.
 4. **Root Directory**: leave blank unless this app lives in a subfolder inside the repo (then set that folder, e.g. `formed-design-planner`).
 5. **Node.js version:** This app pins **`20.x`** in `package.json` → `engines`. If Vercel still shows **24.x**, open **Project → Settings → General → Node.js Version** and set **20.x**, then redeploy. Next.js 14 often breaks on bleeding-edge Node.
 
