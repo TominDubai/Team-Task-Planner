@@ -2,10 +2,15 @@
   "name": "formed-design-planner",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next dev",
     "build": "next build",
+    "deploy": "npx vercel@latest deploy --prod",
+    "deploy:preview": "npx vercel@latest",
     "start": "next start",
     "lint": "next lint"
   },
