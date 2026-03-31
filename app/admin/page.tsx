@@ -4,6 +4,8 @@ import AdminClient from "./AdminClient";
 import type { Profile, Task } from "@/lib/types";
 import { ensureProfile } from "@/lib/supabase/ensure-profile";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const supabase = await createClient();
 

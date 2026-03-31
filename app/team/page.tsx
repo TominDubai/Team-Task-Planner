@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import TeamClient from "./TeamClient";
 import type { Profile, Task } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function TeamPage() {
   const supabase = await createClient();
 
