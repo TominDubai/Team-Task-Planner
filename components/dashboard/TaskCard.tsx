@@ -1,9 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trash2, CheckCircle2, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import { cn, formatPercent, getProgressColor } from "@/lib/utils";
 import type { Task, TaskStatus } from "@/lib/types";
 import ProgressRing from "@/components/ui/ProgressRing";
@@ -29,7 +29,7 @@ export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
   const [status, setStatus] = useState<TaskStatus>(task.status);
   const [saving, setSaving] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
-  const supabase = createClient();
+  const supabase = useSupabaseBrowser();
 
   const pct = formatPercent(actualValue, task.target_value);
   const color = getProgressColor(pct);
@@ -44,6 +44,10 @@ export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
   };
 
   const handleSave = async () => {
+    if (!supabase) {
+      toast.error("Not ready yet — try again");
+      return;
+    }
     setSaving(true);
     const newStatus: TaskStatus =
       pct >= 100 ? "complete" : actualValue > 0 ? "in_progress" : status;
@@ -66,6 +70,10 @@ export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
   };
 
   const handleStatusChange = async (newStatus: TaskStatus) => {
+    if (!supabase) {
+      toast.error("Not ready yet — try again");
+      return;
+    }
     setStatus(newStatus);
     setSaving(true);
     const { error } = await supabase
@@ -77,6 +85,10 @@ export default function TaskCard({ task, onDelete, onUpdate }: TaskCardProps) {
   };
 
   const handleDelete = async () => {
+    if (!supabase) {
+      toast.error("Not ready yet — try again");
+      return;
+    }
     const { error } = await supabase.from("tasks").delete().eq("id", task.id);
     if (error) {
       toast.error("Could not delete task");

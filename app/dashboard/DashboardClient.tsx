@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task, Timeframe } from "@/lib/types";
 import { formatPercent, avatarUrl } from "@/lib/utils";
 import TaskColumn from "@/components/dashboard/TaskColumn";
@@ -34,10 +34,11 @@ export default function DashboardClient({ profile, initialTasks }: DashboardClie
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [modalOpen, setModalOpen] = useState(false);
   const [defaultTimeframe, setDefaultTimeframe] = useState<Timeframe>("weekly");
-  const supabase = createClient();
+  const supabase = useSupabaseBrowser();
 
   // Real-time subscription for own tasks
   useEffect(() => {
+    if (!supabase) return;
     const channel = supabase
       .channel("own-tasks")
       .on(
@@ -57,7 +58,9 @@ export default function DashboardClient({ profile, initialTasks }: DashboardClie
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [supabase, profile.id]);
 
   const tasksByTimeframe = (tf: Timeframe) => tasks.filter((t) => t.timeframe === tf);

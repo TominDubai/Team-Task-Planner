@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task } from "@/lib/types";
 import { formatPercent, avatarUrl, getProgressColor } from "@/lib/utils";
 import Image from "next/image";
@@ -24,10 +24,11 @@ export default function AdminClient({ currentUser: _currentUser, initialProfiles
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
-  const supabase = createClient();
+  const supabase = useSupabaseBrowser();
 
   // Real-time subscriptions
   useEffect(() => {
+    if (!supabase) return;
     const ch1 = supabase
       .channel("admin-profiles")
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "profiles" }, (p) => {

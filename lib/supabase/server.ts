@@ -2,6 +2,14 @@ import { createServerClient, type CookieMethodsServer } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (!url || !key) {
+    throw new Error(
+      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY (check Vercel Environment Variables)."
+    );
+  }
+
   const cookieStore = await cookies();
 
   const cookieMethods: CookieMethodsServer = {
@@ -19,9 +27,5 @@ export async function createClient() {
     },
   };
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: cookieMethods }
-  );
+  return createServerClient(url, key, { cookies: cookieMethods });
 }

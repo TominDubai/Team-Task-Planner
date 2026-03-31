@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -26,7 +26,6 @@ export default function TaskFormModal({ userId, open, onClose, onCreated }: Task
   const [target, setTarget] = useState("100");
   const [dueDate, setDueDate] = useState("");
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
 
   const reset = () => {
     setTitle("");
@@ -40,6 +39,7 @@ export default function TaskFormModal({ userId, open, onClose, onCreated }: Task
     if (!title.trim()) return;
     setLoading(true);
 
+    const supabase = createClient();
     const { error } = await supabase.from("tasks").insert({
       user_id: userId,
       title: title.trim(),

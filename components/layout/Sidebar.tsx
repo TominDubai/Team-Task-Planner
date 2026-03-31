@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,7 +11,6 @@ import {
   Target,
   ChevronRight,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 import Image from "next/image";
@@ -46,9 +45,10 @@ interface SidebarProps {
 export default function Sidebar({ profile }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogout = async () => {
+    const { createClient } = await import("@/lib/supabase/client");
+    const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/auth/login");
     router.refresh();

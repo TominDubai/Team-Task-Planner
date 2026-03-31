@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task } from "@/lib/types";
 import MemberCard from "@/components/team/MemberCard";
 import { Users, Wifi, Search } from "lucide-react";
@@ -18,10 +18,11 @@ export default function TeamClient({ currentUserId, initialProfiles, initialTask
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [search, setSearch] = useState("");
   const [liveCount, setLiveCount] = useState(0);
-  const supabase = createClient();
+  const supabase = useSupabaseBrowser();
 
   // ─── Real-time subscriptions ───────────────────────────────────────────────
   useEffect(() => {
+    if (!supabase) return;
     // Profiles channel — vibe updates appear instantly
     const profilesChannel = supabase
       .channel("team-profiles")

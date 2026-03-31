@@ -18,7 +18,6 @@ interface VibeCheckProps {
 export default function VibeCheck({ currentVibe, userId, onUpdate }: VibeCheckProps) {
   const [vibe, setVibe] = useState<Vibe>(currentVibe);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
 
   const updateVibe = async (newVibe: Vibe) => {
     if (newVibe === vibe || loading) return;
@@ -26,6 +25,7 @@ export default function VibeCheck({ currentVibe, userId, onUpdate }: VibeCheckPr
     const prev = vibe;
     setVibe(newVibe);
 
+    const supabase = createClient();
     const { error } = await supabase
       .from("profiles")
       .update({ current_vibe: newVibe })

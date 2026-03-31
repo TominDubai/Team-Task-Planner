@@ -43,7 +43,7 @@ export async function ensureProfile(
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   return { profile: (created as Profile) ?? null };
 }
