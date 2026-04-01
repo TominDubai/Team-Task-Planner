@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Formed Design — Team Planner",
@@ -22,30 +22,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-[#121212] text-white antialiased bg-noise">
-        <div className="relative z-[1] min-h-screen">{children}</div>
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "rgba(30, 30, 30, 0.95)",
-              color: "rgba(255,255,255,0.92)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: "12px",
-              backdropFilter: "blur(16px)",
-              fontFamily: "var(--font-dm-sans)",
-              fontSize: "13px",
-              padding: "12px 16px",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-            },
-            success: {
-              iconTheme: { primary: "#00e5a0", secondary: "#121212" },
-            },
-            error: {
-              iconTheme: { primary: "#ff4d6a", secondary: "#121212" },
-            },
-          }}
-        />
+        <Providers>
+          <div className="relative z-[1] min-h-screen">{children}</div>
+        </Providers>
       </body>
     </html>
   );

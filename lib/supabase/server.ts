@@ -10,7 +10,15 @@ export async function createClient() {
     );
   }
 
-  const cookieStore = await cookies();
+  let cookieStore: Awaited<ReturnType<typeof cookies>>;
+  try {
+    cookieStore = await cookies();
+  } catch (e) {
+    console.error("[supabase/server] cookies() failed", e);
+    throw new Error(
+      "Could not read session cookies. Try again, or clear site cookies for this domain."
+    );
+  }
 
   const cookieMethods: CookieMethodsServer = {
     getAll() {
