@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task, Timeframe } from "@/lib/types";
-import { formatPercent, avatarUrl, avatarSrcNeedsUnoptimized } from "@/lib/utils";
+import { formatPercent } from "@/lib/utils";
 import TaskColumn from "@/components/dashboard/TaskColumn";
 import VibeCheck from "@/components/ui/VibeCheck";
 import TaskFormModal from "@/components/ui/TaskFormModal";
 import ProgressRing from "@/components/ui/ProgressRing";
-import Image from "next/image";
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 import { Sparkles } from "lucide-react";
 
 const TIMEFRAMES: Timeframe[] = ["daily", "weekly", "monthly"];
@@ -94,14 +94,7 @@ export default function DashboardClient({ profile, initialTasks }: DashboardClie
             <div className="flex items-center gap-4">
               <div className="relative">
                 <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0">
-                  <Image
-                    src={profile.avatar_url || avatarUrl(profile.full_name)}
-                    alt={profile.full_name || "Profile"}
-                    width={56}
-                    height={56}
-                    unoptimized={avatarSrcNeedsUnoptimized(profile.avatar_url)}
-                    className="w-full h-full object-cover"
-                  />
+                  <ProfileAvatar profile={profile} size={56} />
                 </div>
                 <span className="absolute -bottom-1 -right-1 text-base leading-none">
                   {profile.current_vibe}

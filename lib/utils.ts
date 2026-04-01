@@ -75,7 +75,3 @@ export function avatarUrl(name: string, seed?: string): string {
   return `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(s)}&backgroundColor=0b0b0b&textColor=00b4ff&fontSize=38&fontWeight=700`;
 }
 
-/** Custom profile avatars can be any HTTPS host (OAuth, etc.); bypass Next/Image remote optimization to avoid SSR throws. */
-export function avatarSrcNeedsUnoptimized(avatarUrl: string | null | undefined): boolean {
-  return Boolean(avatarUrl?.trim());
-}

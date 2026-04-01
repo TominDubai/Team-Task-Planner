@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { AlertTriangle } from "lucide-react";
 import type { Profile, Task } from "@/lib/types";
-import { formatPercent, avatarUrl, getVibeLabel, avatarSrcNeedsUnoptimized } from "@/lib/utils";
+import { formatPercent, getVibeLabel } from "@/lib/utils";
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 import ProgressRing from "@/components/ui/ProgressRing";
 
 interface MemberCardProps {
@@ -70,14 +70,7 @@ export default function MemberCard({ profile, tasks, index }: MemberCardProps) {
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-10 h-10 rounded-xl overflow-hidden border border-white/10 flex-shrink-0">
-              <Image
-                src={profile.avatar_url || avatarUrl(profile.full_name)}
-                alt={profile.full_name || "Profile"}
-                width={40}
-                height={40}
-                unoptimized={avatarSrcNeedsUnoptimized(profile.avatar_url)}
-                className="w-full h-full object-cover"
-              />
+              <ProfileAvatar profile={profile} size={40} />
             </div>
             <span className="absolute -bottom-1 -right-1 text-xs leading-none">
               {profile.current_vibe}

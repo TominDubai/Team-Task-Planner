@@ -13,8 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
-import Image from "next/image";
-import { avatarUrl, avatarSrcNeedsUnoptimized } from "@/lib/utils";
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 
 const navItems = [
   {
@@ -135,14 +134,7 @@ export default function Sidebar({ profile }: SidebarProps) {
         <div className="glass-card p-3 flex items-center gap-3">
           <div className="relative flex-shrink-0">
             <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
-              <Image
-                src={profile.avatar_url || avatarUrl(profile.full_name)}
-                alt={profile.full_name || "Profile"}
-                width={32}
-                height={32}
-                unoptimized={avatarSrcNeedsUnoptimized(profile.avatar_url)}
-                className="w-full h-full object-cover"
-              />
+              <ProfileAvatar profile={profile} size={32} />
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 text-[10px] leading-none">
               {profile.current_vibe}

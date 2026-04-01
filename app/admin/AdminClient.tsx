@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useSupabaseBrowser } from "@/hooks/use-supabase-browser";
 import type { Profile, Task } from "@/lib/types";
-import { formatPercent, avatarUrl, getProgressColor, avatarSrcNeedsUnoptimized } from "@/lib/utils";
-import Image from "next/image";
+import { formatPercent, getProgressColor } from "@/lib/utils";
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 import { ShieldCheck, AlertTriangle, TrendingUp, Users, CheckSquare, Search, ChevronUp, ChevronDown } from "lucide-react";
 import HighFiveButton from "@/components/admin/HighFiveButton";
 
@@ -302,14 +302,7 @@ export default function AdminClient({ currentUser: _currentUser, initialProfiles
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/10">
-                          <Image
-                            src={row.profile.avatar_url || avatarUrl(row.profile.full_name)}
-                            alt={row.profile.full_name || "Profile"}
-                            width={32}
-                            height={32}
-                            unoptimized={avatarSrcNeedsUnoptimized(row.profile.avatar_url)}
-                            className="w-full h-full object-cover"
-                          />
+                          <ProfileAvatar profile={row.profile} size={32} />
                         </div>
                         <span className="absolute -bottom-0.5 -right-0.5 text-[10px] leading-none">
                           {row.profile.current_vibe}
